@@ -1,0 +1,17 @@
+{
+  "name": "n2one",
+  "version": "1.0.0",
+  "description": "collect few task param to process them in one time",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "puqinghua",
+  "type": "module",
+  "typings": "@types/node",
+  "license": "MIT",
+  "dependencies": {
+    "@types/node": "^17.0.31",
+    "typescript": "^4.6.4"
+  }
+}

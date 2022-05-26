@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "isolatedModules": true,
+    "strict": true,
+    "module": "ES2020",
+    "lib": ["ES2019"],
+    "noEmit": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "baseUrl": "types",
+    "typeRoots": ["types"],
+  },
+  "baseUrl": "types",
+  "typeRoots": ["types"],
+  "include": ["src/**/*.ts", "src/*.ts"], // 值编译src里面的.ts文件
+  // "files": [], // 指定编译的文件
+}
