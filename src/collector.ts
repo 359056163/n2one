@@ -1,8 +1,16 @@
 /// <reference types="node" />
 
+/**
+ * 构造函数参数option
+ * 
+ * cacheSize {number} 缓存的上限
+ * waiting {number} 等待时间
+ * worker(arr: Array<any>): Promise<void>; 处理缓存的方法
+ * onError(err:any): Promise<void>; 异常处理
+ */
 export interface CollectorOption {
-  workSize:number;
-  waiting: number;
+  cacheSize: number;
+  waiting: number; 
   worker(arr: Array<any>): Promise<void>;
   onError(err:any): Promise<void>;
 }
@@ -11,7 +19,7 @@ export class Collector<T> {
   private group : Array<T>;
   private isBusy : boolean;
   private interval: NodeJS.Timeout | null;
-  private workSize: number = 0;
+  private cacheSize: number = 0;
   private worker: (arr: Array<any>)=>Promise<void>;
   private waiting: number;
   private onError: (err:any)=> Promise<void>;
@@ -21,12 +29,13 @@ export class Collector<T> {
     this.interval = null;
     this.worker = opt.worker;
     this.waiting = opt.waiting;
-    this.workSize = opt.workSize;
+    this.cacheSize = opt.cacheSize;
     this.onError = opt.onError;
   }
 
   /**
-   * collect
+   * collect 
+   * 收集任务参数
    */
   public async collect(t: T) : Promise<void> {
     if (this.interval !== null) {
@@ -35,7 +44,7 @@ export class Collector<T> {
     }
     this.group.push(t);
     if (!this.isBusy) {
-      if (this.group.length > this.workSize) {
+      if (this.group.length >= this.cacheSize) {
         await this.execute()
       } else {
         this.interval = setTimeout(async () => {
@@ -45,7 +54,10 @@ export class Collector<T> {
 
     }
   }
-
+  /**
+   * execute 
+   * 执行任务，清除缓存；
+   */
   private async execute(): Promise<void>{
     this.isBusy = true;
     try {
